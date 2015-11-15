@@ -1,2 +1,3 @@
-# java-hibernate
-Java - Hibernate
+# Java - Hibernate
+
+* BookShop
