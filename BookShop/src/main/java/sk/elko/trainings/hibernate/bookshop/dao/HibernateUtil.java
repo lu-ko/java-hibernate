@@ -4,8 +4,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistryBuilder;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class HibernateUtil {
     private static final Log log = LogFactory.getLog(HibernateUtil.class);
@@ -15,9 +17,9 @@ public class HibernateUtil {
     private static synchronized void initSessionFactory() {
         log.info("initSessionFactory - Initializing SessionFactory...");
         try {
-            Configuration config = new Configuration().configure("hibernate.cfg.xml");
-            ServiceRegistryBuilder builder = new ServiceRegistryBuilder().applySettings(config.getProperties());
-            sessionFactory = config.buildSessionFactory(builder.buildServiceRegistry());
+            StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+            Metadata metadata = new MetadataSources(standardRegistry).getMetadataBuilder().build();
+            sessionFactory = metadata.getSessionFactoryBuilder().build();
             log.info("initSessionFactory - SessionFactory initialized.");
         } catch (Throwable ex) {
             log.error("Initial SessionFactory creation failed. " + ex);

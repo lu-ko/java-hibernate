@@ -9,7 +9,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name = "Product")
 @Table(name = "PRODUCT")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Product {

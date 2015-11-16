@@ -1,5 +1,8 @@
 package sk.elko.trainings.hibernate.bookshop;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -23,13 +26,13 @@ import sk.elko.trainings.hibernate.bookshop.dao.impl.PublisherDAOImpl;
 public class BasicOperationsAfterDeploymentTest {
     private static final Log log = LogFactory.getLog(BasicOperationsAfterDeploymentTest.class);
 
-    private BookDAO bookService = new BookDAOImpl();
-    private CustomerDAO customerService = new CustomerDAOImpl();
-    private PublisherDAO publisherService = new PublisherDAOImpl();
+    private BookDAO bookDAO = new BookDAOImpl();
+    private CustomerDAO customerDAO = new CustomerDAOImpl();
+    private PublisherDAO publisherDAO = new PublisherDAOImpl();
 
     @Test
     public void test01a_createPublishers() {
-        List<Publisher> publishers = publisherService.getAll();
+        List<Publisher> publishers = publisherDAO.getAll();
         log.info("test01a_createPublishers - Existing publishers: " + publishers.size());
 
         Date date = new Date();
@@ -43,23 +46,36 @@ public class BasicOperationsAfterDeploymentTest {
         newPublisher.getAddress().setZip("111 00");
         newPublisher.getAddress().setCountry("Czech Republic");
 
-        Long publisherId = publisherService.create(newPublisher);
+        Long publisherId = publisherDAO.create(newPublisher);
         log.info("test01a_createPublishers - Publisher '" + newPublisher.getCode() + "' created with ID = " + publisherId);
+
+        Publisher publisher = publisherDAO.get(publisherId);
+        assertNotNull(publisher);
+        assertEquals(publisher.getId(), publisherId);
+        assertEquals(publisher.getCode(), newPublisher.getCode());
+        assertEquals(publisher.getName(), newPublisher.getName());
+        assertNotNull(publisher.getAddress());
+        assertEquals(publisher.getAddress().getStreet(), newPublisher.getAddress().getStreet());
+        assertEquals(publisher.getAddress().getStreetNr(), newPublisher.getAddress().getStreetNr());
+        assertEquals(publisher.getAddress().getCity(), newPublisher.getAddress().getCity());
+        assertEquals(publisher.getAddress().getZip(), newPublisher.getAddress().getZip());
+        assertEquals(publisher.getAddress().getCountry(), newPublisher.getAddress().getCountry());
     }
 
     @Test(dependsOnMethods = "test01a_createPublishers")
     public void test01b_findPublishers() {
-        List<Publisher> publishers = publisherService.getAll();
+        List<Publisher> publishers = publisherDAO.getAll();
         log.info("test01b_findPublishers - Existing publishers: " + publishers.size());
 
+        assertEquals(publishers.size(), 1);
         // TODO maybe print
     }
 
     @Test(dependsOnMethods = "test01b_findPublishers")
     public void test02a_createBooks() {
-        log.info("test02a_createBooks - Existing books: " + bookService.getAll().size());
+        log.info("test02a_createBooks - Existing books: " + bookDAO.getAll().size());
 
-        Long publisherId = publisherService.getAll().get(0).getId();
+        Long publisherId = publisherDAO.getAll().get(0).getId();
 
         Date date = new Date();
         int random = new Random().nextInt(1000);
@@ -82,15 +98,29 @@ public class BasicOperationsAfterDeploymentTest {
         chapter2.setTitle("First Chapter");
         newBook.getChapters().add(chapter2);
 
-        Long bookId = bookService.create(newBook);
+        Long bookId = bookDAO.create(newBook);
         log.info("test02a_createBooks - Book '" + newBook.getIsbn() + "' created with ID = " + bookId);
+
+        Book book = bookDAO.get(bookId);
+        assertNotNull(book);
+        assertEquals(book.getId(), bookId);
+        assertEquals(book.getIsbn(), newBook.getIsbn());
+        assertEquals(book.getName(), newBook.getName());
+        assertEquals(book.getPrice(), newBook.getPrice());
+        assertEquals(book.getPublishDate(), newBook.getPublishDate());
+        assertNotNull(book.getPublisher());
+        assertEquals(book.getPublisher().getId(), publisherId);
+        assertEquals(book.getPublisher().getName(), "ABC Publishing inc."); // update test
+        assertNotNull(book.getChapters());
+        assertEquals(book.getChapters().size(), newBook.getChapters().size());
     }
 
     @Test(dependsOnMethods = "test02a_createBooks")
     public void test02b_findBooks() {
-        List<Book> books = bookService.getAll();
+        List<Book> books = bookDAO.getAll();
         log.info("test02b_findBooks - Existing books: " + books.size());
 
+        assertEquals(books.size(), 1);
         printBook(books);
     }
 
@@ -115,7 +145,7 @@ public class BasicOperationsAfterDeploymentTest {
 
     @Test
     public void test03a_createCustomers() {
-        List<Customer> customers = customerService.getAll();
+        List<Customer> customers = customerDAO.getAll();
         log.info("test03a_createCustomers - Existing customers: " + customers.size());
 
         Date date = new Date();
@@ -130,7 +160,21 @@ public class BasicOperationsAfterDeploymentTest {
         newCustomer.getAddress().setZip("123 45");
         newCustomer.getAddress().setCountry("Slovakia");
 
-        Long customerId = customerService.create(newCustomer);
+        Long customerId = customerDAO.create(newCustomer);
         log.info("test03a_createCustomers - Customer '" + newCustomer.getEmail() + "' created with ID = " + customerId);
+
+        Customer customer = customerDAO.get(customerId);
+        assertNotNull(customer);
+        assertEquals(customer.getId(), customerId);
+        assertEquals(customer.getEmail(), newCustomer.getEmail());
+        assertEquals(customer.getFirstname(), newCustomer.getFirstname());
+        assertEquals(customer.getSurname(), newCustomer.getSurname());
+        assertEquals(customer.getTitles(), newCustomer.getTitles());
+        assertNotNull(customer.getAddress());
+        assertEquals(customer.getAddress().getStreet(), newCustomer.getAddress().getStreet());
+        assertEquals(customer.getAddress().getStreetNr(), newCustomer.getAddress().getStreetNr());
+        assertEquals(customer.getAddress().getCity(), newCustomer.getAddress().getCity());
+        assertEquals(customer.getAddress().getZip(), newCustomer.getAddress().getZip());
+        assertEquals(customer.getAddress().getCountry(), newCustomer.getAddress().getCountry());
     }
 }

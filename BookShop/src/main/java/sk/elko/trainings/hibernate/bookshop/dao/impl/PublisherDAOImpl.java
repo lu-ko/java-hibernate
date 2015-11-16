@@ -3,10 +3,11 @@ package sk.elko.trainings.hibernate.bookshop.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import sk.elko.trainings.hibernate.bookshop.bo.Publisher;
 import sk.elko.trainings.hibernate.bookshop.dao.HibernateUtil;
@@ -28,11 +29,11 @@ public class PublisherDAOImpl implements PublisherDAO {
     public List<Publisher> find(String code) {
         Session session = HibernateUtil.openSession();
         try {
-            Query query = session.createQuery("from Publisher where code = ?");
-            query.setString(0, code);
+            Criteria criteria = session.createCriteria(Publisher.class);
+            criteria.add(Restrictions.eq("code", code));
 
             List<Publisher> list = new ArrayList<Publisher>();
-            for (Object publisher : query.list()) {
+            for (Object publisher : criteria.list()) {
                 list.add((Publisher) publisher);
             }
             return list;
@@ -45,10 +46,10 @@ public class PublisherDAOImpl implements PublisherDAO {
     public List<Publisher> getAll() {
         Session session = HibernateUtil.openSession();
         try {
-            Query query = session.createQuery("from Publisher");
+            Criteria criteria = session.createCriteria(Publisher.class);
 
             List<Publisher> list = new ArrayList<Publisher>();
-            for (Object publisher : query.list()) {
+            for (Object publisher : criteria.list()) {
                 list.add((Publisher) publisher);
             }
             return list;
@@ -68,15 +69,7 @@ public class PublisherDAOImpl implements PublisherDAO {
 
             // insert / update
             session.saveOrUpdate(publisher);
-
-            // get id
-            Query query = session.createQuery("from Publisher where code = ?");
-            query.setString(0, publisher.getCode());
-            Publisher newPublisher = (Publisher) query.uniqueResult();
-            if (newPublisher != null) {
-                id = newPublisher.getId();
-            }
-
+            id = publisher.getId();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {

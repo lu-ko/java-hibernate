@@ -68,15 +68,7 @@ public class BookDAOImpl implements BookDAO {
 
             // insert / update
             session.saveOrUpdate(book);
-
-            // get id
-            Query query = session.getNamedQuery(BOOK_FIND_BY_ISBN);
-            query.setString("isbn", book.getIsbn());
-            Book newBook = (Book) query.uniqueResult();
-            if (newBook != null) {
-                id = newBook.getId();
-            }
-
+            id = book.getId();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {

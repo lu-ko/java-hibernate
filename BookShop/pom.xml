@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>sk.elko.trainings.hibernate</groupId>
     <artifactId>BookShop</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>BookShop</name>
 
@@ -12,11 +12,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <javaee-api.version>1.0.0.Final</javaee-api.version>
-        <hibernate-core.version>4.1.0.Final</hibernate-core.version>
+        <hibernate-core.version>5.0.2.Final</hibernate-core.version>
         <hsqldb.version>2.2.9</hsqldb.version>
         <maven-hibernate-plugin.version>1.0.3</maven-hibernate-plugin.version>
-        <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
-        <maven-war-plugin.version>2.3</maven-war-plugin.version>
+        <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
+        <maven-war-plugin.version>2.6</maven-war-plugin.version>
         <slf4j.version>1.6.4</slf4j.version>
         <testng.version>6.8.1</testng.version>
     </properties>

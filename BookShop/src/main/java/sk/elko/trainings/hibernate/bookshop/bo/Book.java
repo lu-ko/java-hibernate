@@ -11,11 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.IndexColumn;
-
-@Entity
+@Entity(name = "Book")
 @Table(name = "BOOK")
 public class Book extends Product {
 
@@ -31,7 +30,7 @@ public class Book extends Product {
 
     @ElementCollection(targetClass = Chapter.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "CHAPTER")
-    @IndexColumn(name = "INDEX")
+    @OrderColumn(name = "INDEX")
     private List<Chapter> chapters;
 
     // getters and setters

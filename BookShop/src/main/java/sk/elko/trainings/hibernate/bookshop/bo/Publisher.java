@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name = "Publisher")
 @Table(name = "PUBLISHER")
 public class Publisher {
 

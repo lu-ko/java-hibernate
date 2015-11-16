@@ -8,7 +8,7 @@ Simple Java Maven project to test some features in Hibernate.
 
 **Last update:** Nov 2015
 
-**Keywords:** [Hibernate 4.1.0.Final](http://hibernate.org/orm/), [HyperSQL Database Engine (HSQLDB)](http://hsqldb.org/)
+**Keywords:** [Hibernate 5.0.2.Final](http://hibernate.org/orm/), [HyperSQL Database Engine (HSQLDB)](http://hsqldb.org/)
 
 ## Setup:
 

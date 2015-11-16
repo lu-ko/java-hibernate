@@ -3,10 +3,11 @@ package sk.elko.trainings.hibernate.bookshop.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import sk.elko.trainings.hibernate.bookshop.bo.Customer;
 import sk.elko.trainings.hibernate.bookshop.dao.CustomerDAO;
@@ -28,11 +29,11 @@ public class CustomerDAOImpl implements CustomerDAO {
     public List<Customer> find(String email) {
         Session session = HibernateUtil.openSession();
         try {
-            Query query = session.createQuery("from Customer where email = ?");
-            query.setString(0, email);
+            Criteria criteria = session.createCriteria(Customer.class);
+            criteria.add(Restrictions.eq("email", email));
 
             List<Customer> list = new ArrayList<Customer>();
-            for (Object customer : query.list()) {
+            for (Object customer : criteria.list()) {
                 list.add((Customer) customer);
             }
             return list;
@@ -45,10 +46,10 @@ public class CustomerDAOImpl implements CustomerDAO {
     public List<Customer> getAll() {
         Session session = HibernateUtil.openSession();
         try {
-            Query query = session.createQuery("from Customer");
+            Criteria criteria = session.createCriteria(Customer.class);
 
             List<Customer> list = new ArrayList<Customer>();
-            for (Object customer : query.list()) {
+            for (Object customer : criteria.list()) {
                 list.add((Customer) customer);
             }
             return list;
@@ -68,15 +69,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
             // insert / update
             session.saveOrUpdate(customer);
-
-            // get id
-            Query query = session.createQuery("from Customer where email = ?");
-            query.setString(0, customer.getEmail());
-            Customer newCustomer = (Customer) query.uniqueResult();
-            if (newCustomer != null) {
-                id = newCustomer.getId();
-            }
-
+            id = customer.getId();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {
