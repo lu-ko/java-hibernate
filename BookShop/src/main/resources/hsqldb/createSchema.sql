@@ -1,102 +1,144 @@
 
-    create table ADDRESS (
-        ID bigint not null,
-        CITY varchar(30) not null,
-        COUNTRY varchar(20) not null,
-        STREET varchar(30) not null,
-        STREET_NR varchar(10) not null,
-        ZIP varchar(10) not null,
-        primary key (ID)
+    alter table book
+        drop constraint FK_19ss4s5ji828yqdpgm0otr93s;
+
+    alter table book
+        drop constraint FK_6kcjrhl9yf3g278kp065falx9;
+
+    alter table chapter
+        drop constraint FK_2e1fctd0c12tev2t15j4u3qsr;
+
+    alter table customer
+        drop constraint FK_r8whbd0mf9er6vwfr0sclsxkd;
+
+    alter table publisher
+        drop constraint FK_jxn55xet4bty6xv3qfbw58si;
+
+    alter table reservation
+        drop constraint FK_69tigr4wbkrwhfef2l1mp6vgu;
+
+    alter table reservation
+        drop constraint FK_j2uyenywxkekrc52wq08413fo;
+
+    drop table address if exists;
+
+    drop table book if exists;
+
+    drop table chapter if exists;
+
+    drop table customer if exists;
+
+    drop table product if exists;
+
+    drop table publisher if exists;
+
+    drop table reservation if exists;
+
+    drop sequence hibernate_sequence;
+
+    create table address (
+        id bigint not null,
+        city varchar(30) not null,
+        country varchar(20) not null,
+        street varchar(30) not null,
+        street_nr varchar(10) not null,
+        zip varchar(10) not null,
+        primary key (id)
     );
 
-    create table BOOK (
-        ISBN varchar(20) not null,
-        PUBLISH_DATE timestamp,
-        ID bigint not null,
-        PUBLISHER_ID bigint not null,
-        primary key (ID),
-        unique (ISBN)
+    create table book (
+        isbn varchar(20) not null,
+        publish_date timestamp,
+        id bigint not null,
+        publisher_id bigint not null,
+        primary key (id)
     );
 
-    create table CHAPTER (
-        Book_ID bigint not null,
-        NUM_OF_PAGES integer,
-        ORDER_NUMBER integer not null,
-        TITLE varchar(30),
-        INDEX integer not null,
-        primary key (Book_ID, INDEX)
+    create table chapter (
+        book bigint not null,
+        num_of_pages integer,
+        order_number integer not null,
+        title varchar(30),
+        index integer not null,
+        primary key (book, index)
     );
 
-    create table CUSTOMER (
-        ID bigint not null,
-        EMAIL varchar(50) not null,
-        FIRSTNAME varchar(50) not null,
-        SURNAME varchar(50) not null,
-        TITLES varchar(30),
-        ADDRESS_ID bigint not null,
-        primary key (ID),
-        unique (EMAIL)
+    create table customer (
+        id bigint not null,
+        email varchar(50) not null,
+        firstname varchar(50) not null,
+        surname varchar(50) not null,
+        titles varchar(30),
+        address_id bigint not null,
+        primary key (id)
     );
 
-    create table PRODUCT (
-        ID bigint not null,
-        NAME varchar(50) not null,
-        PRICE integer,
-        primary key (ID)
+    create table product (
+        id bigint not null,
+        name varchar(50) not null,
+        price integer,
+        primary key (id)
     );
 
-    create table PUBLISHER (
-        ID bigint not null,
-        CODE varchar(20) not null,
-        NAME varchar(50) not null,
-        ADDRESS_ID bigint not null,
-        primary key (ID),
-        unique (CODE)
+    create table publisher (
+        id bigint not null,
+        code varchar(20) not null,
+        name varchar(50) not null,
+        address_id bigint not null,
+        primary key (id)
     );
 
-    create table RESERVATION (
-        ID bigint not null,
-        CREATED_WHEN timestamp,
-        QUANTITY integer not null,
-        CUSTOMER_ID bigint not null,
-        PRODUCT_ID bigint not null,
-        primary key (ID)
+    create table reservation (
+        id bigint not null,
+        created_when timestamp,
+        quantity integer not null,
+        customer_id bigint not null,
+        product_id bigint not null,
+        primary key (id)
     );
 
-    alter table BOOK 
-        add constraint FK1F32E94EB9FE7A 
-        foreign key (ID) 
-        references PRODUCT;
+    alter table book
+        add constraint UK_ehpdfjpu1jm3hijhj4mm0hx9h unique (isbn);
 
-    alter table BOOK 
-        add constraint FK1F32E9AE3928AA 
-        foreign key (PUBLISHER_ID) 
-        references PUBLISHER;
+    alter table customer
+        add constraint UK_dwk6cx0afu8bs9o4t536v1j5v unique (email);
 
-    alter table CHAPTER 
-        add constraint FK56D8082DCFB4CEAA 
-        foreign key (Book_ID) 
-        references BOOK;
+    alter table publisher
+        add constraint UK_pphoxl6ndros8lnhqunddl02g unique (code);
 
-    alter table CUSTOMER 
-        add constraint FK52C76FDE6CB2A1AA 
-        foreign key (ADDRESS_ID) 
-        references ADDRESS;
+    alter table book
+        add constraint FK_19ss4s5ji828yqdpgm0otr93s
+        foreign key (publisher_id)
+        references publisher;
 
-    alter table PUBLISHER 
-        add constraint FKFC5DB1DC6CB2A1AA 
-        foreign key (ADDRESS_ID) 
-        references ADDRESS;
+    alter table book
+        add constraint FK_6kcjrhl9yf3g278kp065falx9
+        foreign key (id)
+        references product;
 
-    alter table RESERVATION 
-        add constraint FK2328D7ACB736BBCA 
-        foreign key (PRODUCT_ID) 
-        references PRODUCT;
+    alter table chapter
+        add constraint FK_2e1fctd0c12tev2t15j4u3qsr
+        foreign key (book)
+        references book;
 
-    alter table RESERVATION 
-        add constraint FK2328D7AC7EDA668A 
-        foreign key (CUSTOMER_ID) 
-        references CUSTOMER;
+    alter table customer
+        add constraint FK_r8whbd0mf9er6vwfr0sclsxkd
+        foreign key (address_id)
+        references address;
+
+    alter table publisher
+        add constraint FK_jxn55xet4bty6xv3qfbw58si
+        foreign key (address_id)
+        references address;
+
+    alter table reservation
+        add constraint FK_69tigr4wbkrwhfef2l1mp6vgu
+        foreign key (customer_id)
+        references customer;
+
+    alter table reservation
+        add constraint FK_j2uyenywxkekrc52wq08413fo
+        foreign key (product_id)
+        references product;
 
     create sequence hibernate_sequence;
-    

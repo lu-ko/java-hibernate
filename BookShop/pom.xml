@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>sk.elko.trainings.hibernate</groupId>
     <artifactId>BookShop</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>BookShop</name>
 
@@ -14,7 +14,7 @@
         <javaee-api.version>1.0.0.Final</javaee-api.version>
         <hibernate-core.version>4.1.0.Final</hibernate-core.version>
         <hsqldb.version>2.2.9</hsqldb.version>
-        <maven-hibernate-plugin.version>3.0</maven-hibernate-plugin.version>
+        <maven-hibernate-plugin.version>1.0.3</maven-hibernate-plugin.version>
         <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
         <maven-war-plugin.version>2.3</maven-war-plugin.version>
         <slf4j.version>1.6.4</slf4j.version>
@@ -119,17 +119,22 @@
             </plugin>
 
             <plugin>
-                <!-- Run "mvn hibernate3:hbm2ddl" to generate schema -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>hibernate3-maven-plugin</artifactId>
+                <groupId>de.juplo</groupId>
+                <artifactId>hibernate4-maven-plugin</artifactId>
                 <version>${maven-hibernate-plugin.version}</version>
-                <configuration>
-                    <hibernatetool>
-                        <annotationconfiguration propertyfile="src/main/resources/hibernate.cfg.xml" />
-                        <hbm2ddl create="true" update="false" drop="false" export="false" outputfilename="createSchema.sql"
-                            format="true" console="true" />
-                    </hibernatetool>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>hsqldb</id>
+                        <goals>
+                            <goal>export</goal>
+                        </goals>
+                        <configuration>
+                            <hibernateProperties>${project.build.directory}/classes/hibernate.properties</hibernateProperties>
+                            <target>SCRIPT</target>
+                            <outputFile>${project.build.directory}/createSchema.sql</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
                 <dependencies>
                     <dependency>
                         <groupId>org.hsqldb</groupId>
@@ -154,11 +159,11 @@
                             <pluginExecutions>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>org.codehaus.mojo</groupId>
-                                        <artifactId>hibernate3-maven-plugin</artifactId>
-                                        <versionRange>[2.2,)</versionRange>
+                                        <groupId>de.juplo</groupId>
+                                        <artifactId>hibernate4-maven-plugin</artifactId>
+                                        <versionRange>[1.0,)</versionRange>
                                         <goals>
-                                            <goal>hbm2ddl</goal>
+                                            <goal>export</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>

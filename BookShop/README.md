@@ -8,11 +8,7 @@ Simple Java Maven project to test some features in Hibernate.
 
 **Last update:** Nov 2015
 
-## Keywords:
-
-* [Hibernate](http://hibernate.org/orm/) - 4.1.0.Final
-
-* [HyperSQL Database Engine (HSQLDB)](http://hsqldb.org/)
+**Keywords:** [Hibernate 4.1.0.Final](http://hibernate.org/orm/), [HyperSQL Database Engine (HSQLDB)](http://hsqldb.org/)
 
 ## Setup:
 
@@ -22,9 +18,11 @@ Next steps are relevant for [Eclipse IDE](http://www.eclipse.org/downloads/packa
 
 2. Install & configure [HyperSQL Database Engine (HSQLDB)](http://hsqldb.org/)
 
-3. Open [startHsqldb.bat] file and set absolute path to your HSQLDB instance
+3. Open [startHsqldb.bat](https://github.com/lu-ko/java-hibernate/blob/master/BookShop/src/main/resources/hsqldb/startHsqldb.bat) file and set absolute path to your HSQLDB instance
 
-4. (Optional) Run [Test] as TestNG Test
+4. Start DB with [startHsqldb.bat](https://github.com/lu-ko/java-hibernate/blob/master/BookShop/src/main/resources/hsqldb/startHsqldb.bat)
+
+5. ```mvn clean install```
 
 ## Notes:
 
@@ -32,5 +30,5 @@ Next steps are relevant for [Eclipse IDE](http://www.eclipse.org/downloads/packa
 
 * There is no UI yet.
 
-* You can generate current DB schema with ```mvn hibernate3:hbm2ddl```. Output file: ```target/sql/hibernate3/createSchema.sql```
+* Generated SQL script to drop and create schema: ```target/createSchema.sql```
 
