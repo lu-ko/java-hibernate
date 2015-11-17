@@ -1,0 +1,65 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building BookShop 0.0.3-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ BookShop ---
+[INFO] sk.elko.trainings.hibernate:BookShop:war:0.0.3-SNAPSHOT
+[INFO] +- org.hibernate:hibernate-core:jar:5.0.2.Final:compile
+[INFO] |  +- org.jboss.logging:jboss-logging:jar:3.3.0.Final:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-jta_1.1_spec:jar:1.1.1:compile
+[INFO] |  +- org.hibernate.javax.persistence:hibernate-jpa-2.1-api:jar:1.0.0.Final:compile
+[INFO] |  +- org.javassist:javassist:jar:3.18.1-GA:compile
+[INFO] |  +- antlr:antlr:jar:2.7.7:compile
+[INFO] |  +- org.jboss:jandex:jar:1.2.2.Final:compile
+[INFO] |  +- dom4j:dom4j:jar:1.6.1:compile
+[INFO] |  |  \- xml-apis:xml-apis:jar:1.0.b2:compile
+[INFO] |  \- org.hibernate.common:hibernate-commons-annotations:jar:5.0.0.Final:compile
+[INFO] +- org.hibernate:hibernate-validator-annotation-processor:jar:5.0.2.Final:compile
+[INFO] +- org.hsqldb:hsqldb:jar:2.2.9:compile
+[INFO] +- org.slf4j:jcl-over-slf4j:jar:1.6.4:compile
+[INFO] |  \- org.slf4j:slf4j-api:jar:1.6.4:compile
+[INFO] +- org.jboss.spec:jboss-javaee-6.0:pom:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.1_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.5_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.1_spec:jar:1.0.0.Final:provided
+[INFO] |  |  \- javax.xml:jaxrpc-api:jar:1.1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_2.2_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.1_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.4_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.deploy:jboss-jad-api_1.2_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.0_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.xml.registry:jboss-jaxr-api_1.0_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_1.1_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.2_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_3.0_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.1_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.2_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.xml.rpc:jboss-jaxrpc-api_1.1_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:jar:1.0.0.Final:provided
+[INFO] |  +- javax.activation:activation:jar:1.1:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:1.0-SP4:provided
+[INFO] |  +- com.sun.faces:jsf-api:jar:2.0.3-b05:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0-MR1:provided
+[INFO] |  +- javax.mail:mail:jar:1.4.2:provided
+[INFO] |  +- javax.servlet:jstl:jar:1.2:provided
+[INFO] |  +- org.hibernate.javax.persistence:hibernate-jpa-2.0-api:jar:1.0.0.Final:provided
+[INFO] |  +- org.jboss.resteasy:jaxrs-api:jar:2.1.0.GA:provided
+[INFO] |  +- stax:stax-api:jar:1.0.1:provided
+[INFO] |  \- javax.validation:validation-api:jar:1.0.0.GA:provided
+[INFO] \- org.testng:testng:jar:6.8.1:test
+[INFO]    +- junit:junit:jar:4.10:test
+[INFO]    |  \- org.hamcrest:hamcrest-core:jar:1.1:test
+[INFO]    +- org.beanshell:bsh:jar:2.0b4:test
+[INFO]    +- com.beust:jcommander:jar:1.27:test
+[INFO]    \- org.yaml:snakeyaml:jar:1.6:test
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.039 s
+[INFO] Finished at: 2015-11-17T15:36:26+01:00
+[INFO] Final Memory: 14M/155M
+[INFO] ------------------------------------------------------------------------
