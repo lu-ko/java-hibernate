@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -26,7 +24,6 @@ import sk.elko.trainings.hibernate.bookshop.dao.PublisherDAO;
 
 @ContextConfiguration(classes = {AppConfig.class})
 public class BasicOperationsAfterDeploymentTest extends AbstractTestNGSpringContextTests {
-    private static final Log log = LogFactory.getLog(BasicOperationsAfterDeploymentTest.class);
 
     @Autowired
     private BookDAO bookDAO;
@@ -40,7 +37,7 @@ public class BasicOperationsAfterDeploymentTest extends AbstractTestNGSpringCont
     @Test
     public void test01a_createPublishers() {
         List<Publisher> publishers = publisherDAO.getAll();
-        log.info("test01a_createPublishers - Existing publishers: " + publishers.size());
+        System.out.println("test01a_createPublishers - Existing publishers: " + publishers.size());
 
         Date date = new Date();
         Publisher newPublisher = new Publisher();
@@ -54,7 +51,7 @@ public class BasicOperationsAfterDeploymentTest extends AbstractTestNGSpringCont
         newPublisher.getAddress().setCountry("Czech Republic");
 
         Long publisherId = publisherDAO.create(newPublisher);
-        log.info("test01a_createPublishers - Publisher '" + newPublisher.getCode() + "' created with ID = " + publisherId);
+        System.out.println("test01a_createPublishers - Publisher '" + newPublisher.getCode() + "' created with ID = " + publisherId);
 
         Publisher publisher = publisherDAO.get(publisherId);
         assertNotNull(publisher);
@@ -72,23 +69,23 @@ public class BasicOperationsAfterDeploymentTest extends AbstractTestNGSpringCont
     @Test(dependsOnMethods = "test01a_createPublishers")
     public void test01b_findPublishers() {
         List<Publisher> publishersAll = publisherDAO.getAll();
-        log.info("test01b_findPublishers - Existing all publishers: " + publishersAll.size());
+        System.out.println("test01b_findPublishers - Existing all publishers: " + publishersAll.size());
         assertEquals(publishersAll.size(), 1);
 
         List<Publisher> publishersInvalid = publisherDAO.find("invalid-code");
-        log.info("test01b_findPublishers - Invalid code publishers: " + publishersInvalid.size());
+        System.out.println("test01b_findPublishers - Invalid code publishers: " + publishersInvalid.size());
         assertEquals(publishersInvalid.size(), 0);
 
         String expectedCode = publishersAll.get(0).getCode();
         List<Publisher> publishersValid = publisherDAO.find(expectedCode);
-        log.info("test01b_findPublishers - Valid code(" + expectedCode + ") publishers: " + publishersValid.size());
+        System.out.println("test01b_findPublishers - Valid code(" + expectedCode + ") publishers: " + publishersValid.size());
         assertEquals(publishersValid.size(), 1);
         // TODO maybe print
     }
 
     @Test(dependsOnMethods = "test01b_findPublishers")
     public void test02a_createBooks() {
-        log.info("test02a_createBooks - Existing books: " + bookDAO.getAll().size());
+        System.out.println("test02a_createBooks - Existing books: " + bookDAO.getAll().size());
 
         Long publisherId = publisherDAO.getAll().get(0).getId();
 
@@ -114,7 +111,7 @@ public class BasicOperationsAfterDeploymentTest extends AbstractTestNGSpringCont
         newBook.getChapters().add(chapter2);
 
         Long bookId = bookDAO.create(newBook);
-        log.info("test02a_createBooks - Book '" + newBook.getIsbn() + "' created with ID = " + bookId);
+        System.out.println("test02a_createBooks - Book '" + newBook.getIsbn() + "' created with ID = " + bookId);
 
         Book book = bookDAO.get(bookId);
         assertNotNull(book);
@@ -133,26 +130,26 @@ public class BasicOperationsAfterDeploymentTest extends AbstractTestNGSpringCont
     @Test(dependsOnMethods = "test02a_createBooks")
     public void test02b_findBooks() {
         List<Book> booksAll = bookDAO.getAll();
-        log.info("test02b_findBooks - All books: " + booksAll.size());
+        System.out.println("test02b_findBooks - All books: " + booksAll.size());
         assertEquals(booksAll.size(), 1);
         printBook(booksAll);
 
         List<Book> booksInvalid = bookDAO.find("invalid-isbn");
-        log.info("test02b_findBooks - Invalid ISBN books: " + booksInvalid.size());
+        System.out.println("test02b_findBooks - Invalid ISBN books: " + booksInvalid.size());
         assertEquals(booksInvalid.size(), 0);
 
         String expectedIsbn = booksAll.get(0).getIsbn();
         List<Book> booksValid = bookDAO.find(expectedIsbn);
-        log.info("test02b_findBooks - Valid ISBN(" + expectedIsbn + ") books: " + booksValid.size());
+        System.out.println("test02b_findBooks - Valid ISBN(" + expectedIsbn + ") books: " + booksValid.size());
         assertEquals(booksValid.size(), 1);
         printBook(booksValid);
     }
 
     private static void printBook(Book book) {
         if (book == null) {
-            log.info("Book: NULL");
+            System.out.println("Book: NULL");
         } else {
-            log.info("Book: ISBN=" + book.getIsbn() + //
+            System.out.println("Book: ISBN=" + book.getIsbn() + //
                     ", NAME=" + book.getName() + //
                     ", DATE=" + book.getPublishDate() + //
                     ", PUBLISHER=" + book.getPublisher().getName() + //
@@ -161,7 +158,7 @@ public class BasicOperationsAfterDeploymentTest extends AbstractTestNGSpringCont
     }
 
     private static void printBook(List<Book> books) {
-        log.info("=Books=");
+        System.out.println("=Books=");
         for (Book book : books) {
             printBook(book);
         }
@@ -170,7 +167,7 @@ public class BasicOperationsAfterDeploymentTest extends AbstractTestNGSpringCont
     @Test
     public void test03a_createCustomers() {
         List<Customer> customers = customerDAO.getAll();
-        log.info("test03a_createCustomers - Existing customers: " + customers.size());
+        System.out.println("test03a_createCustomers - Existing customers: " + customers.size());
 
         Date date = new Date();
         Customer newCustomer = new Customer();
@@ -185,7 +182,7 @@ public class BasicOperationsAfterDeploymentTest extends AbstractTestNGSpringCont
         newCustomer.getAddress().setCountry("Slovakia");
 
         Long customerId = customerDAO.create(newCustomer);
-        log.info("test03a_createCustomers - Customer '" + newCustomer.getEmail() + "' created with ID = " + customerId);
+        System.out.println("test03a_createCustomers - Customer '" + newCustomer.getEmail() + "' created with ID = " + customerId);
 
         Customer customer = customerDAO.get(customerId);
         assertNotNull(customer);
@@ -205,16 +202,16 @@ public class BasicOperationsAfterDeploymentTest extends AbstractTestNGSpringCont
     @Test(dependsOnMethods = "test03a_createCustomers")
     public void test03b_findCustomers() {
         List<Customer> customersAll = customerDAO.getAll();
-        log.info("test03b_findCustomers - Existing all customers: " + customersAll.size());
+        System.out.println("test03b_findCustomers - Existing all customers: " + customersAll.size());
         assertEquals(customersAll.size(), 1);
 
         List<Customer> customersInvalid = customerDAO.find("invalid-email");
-        log.info("test03b_findCustomers - Invalid email customers: " + customersInvalid.size());
+        System.out.println("test03b_findCustomers - Invalid email customers: " + customersInvalid.size());
         assertEquals(customersInvalid.size(), 0);
 
         String expectedEmail = customersAll.get(0).getEmail();
         List<Customer> customersValid = customerDAO.find(expectedEmail);
-        log.info("test03b_findCustomers - Valid email(" + expectedEmail + ") customers: " + customersValid.size());
+        System.out.println("test03b_findCustomers - Valid email(" + expectedEmail + ") customers: " + customersValid.size());
         assertEquals(customersValid.size(), 1);
         // TODO maybe print
     }
