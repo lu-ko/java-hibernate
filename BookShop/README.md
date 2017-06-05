@@ -6,9 +6,9 @@ Simple Java Maven project to test some features in Hibernate.
 
 **Created:** Jan 2013
 
-**Last update:** Nov 2015
+**Last update:** Jun 2017
 
-**Keywords:** [Hibernate 5.0.2.Final](http://hibernate.org/orm/), [HyperSQL Database Engine (HSQLDB)](http://hsqldb.org/), [Maven](https://maven.apache.org/), [TestNG](http://testng.org/), for more details please see [maven-dependencies.txt](https://github.com/lu-ko/java-hibernate/blob/master/BookShop/maven-dependencies.txt)
+**Keywords:** [Spring 4.3.7.RELEASE](https://spring.io/), [Hibernate 5.2.10.Final](http://hibernate.org/orm/), [HyperSQL Database Engine (HSQLDB) 2.4.0](http://hsqldb.org/), [Maven](https://maven.apache.org/), [TestNG](http://testng.org/), for more details please see [maven-dependencies.txt](https://github.com/lu-ko/java-hibernate/blob/master/BookShop/maven-dependencies.txt)
 
 ## Setup:
 

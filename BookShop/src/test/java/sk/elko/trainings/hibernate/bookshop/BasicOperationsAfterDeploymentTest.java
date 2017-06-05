@@ -9,6 +9,9 @@ import java.util.Random;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
 
 import sk.elko.trainings.hibernate.bookshop.bo.Address;
@@ -16,19 +19,23 @@ import sk.elko.trainings.hibernate.bookshop.bo.Book;
 import sk.elko.trainings.hibernate.bookshop.bo.Chapter;
 import sk.elko.trainings.hibernate.bookshop.bo.Customer;
 import sk.elko.trainings.hibernate.bookshop.bo.Publisher;
+import sk.elko.trainings.hibernate.bookshop.config.AppConfig;
 import sk.elko.trainings.hibernate.bookshop.dao.BookDAO;
 import sk.elko.trainings.hibernate.bookshop.dao.CustomerDAO;
 import sk.elko.trainings.hibernate.bookshop.dao.PublisherDAO;
-import sk.elko.trainings.hibernate.bookshop.dao.impl.BookDAOImpl;
-import sk.elko.trainings.hibernate.bookshop.dao.impl.CustomerDAOImpl;
-import sk.elko.trainings.hibernate.bookshop.dao.impl.PublisherDAOImpl;
 
-public class BasicOperationsAfterDeploymentTest {
+@ContextConfiguration(classes = {AppConfig.class})
+public class BasicOperationsAfterDeploymentTest extends AbstractTestNGSpringContextTests {
     private static final Log log = LogFactory.getLog(BasicOperationsAfterDeploymentTest.class);
 
-    private BookDAO bookDAO = new BookDAOImpl();
-    private CustomerDAO customerDAO = new CustomerDAOImpl();
-    private PublisherDAO publisherDAO = new PublisherDAOImpl();
+    @Autowired
+    private BookDAO bookDAO;
+
+    @Autowired
+    private CustomerDAO customerDAO;
+
+    @Autowired
+    private PublisherDAO publisherDAO;
 
     @Test
     public void test01a_createPublishers() {
@@ -64,10 +71,18 @@ public class BasicOperationsAfterDeploymentTest {
 
     @Test(dependsOnMethods = "test01a_createPublishers")
     public void test01b_findPublishers() {
-        List<Publisher> publishers = publisherDAO.getAll();
-        log.info("test01b_findPublishers - Existing publishers: " + publishers.size());
+        List<Publisher> publishersAll = publisherDAO.getAll();
+        log.info("test01b_findPublishers - Existing all publishers: " + publishersAll.size());
+        assertEquals(publishersAll.size(), 1);
 
-        assertEquals(publishers.size(), 1);
+        List<Publisher> publishersInvalid = publisherDAO.find("invalid-code");
+        log.info("test01b_findPublishers - Invalid code publishers: " + publishersInvalid.size());
+        assertEquals(publishersInvalid.size(), 0);
+
+        String expectedCode = publishersAll.get(0).getCode();
+        List<Publisher> publishersValid = publisherDAO.find(expectedCode);
+        log.info("test01b_findPublishers - Valid code(" + expectedCode + ") publishers: " + publishersValid.size());
+        assertEquals(publishersValid.size(), 1);
         // TODO maybe print
     }
 
@@ -117,11 +132,20 @@ public class BasicOperationsAfterDeploymentTest {
 
     @Test(dependsOnMethods = "test02a_createBooks")
     public void test02b_findBooks() {
-        List<Book> books = bookDAO.getAll();
-        log.info("test02b_findBooks - Existing books: " + books.size());
+        List<Book> booksAll = bookDAO.getAll();
+        log.info("test02b_findBooks - All books: " + booksAll.size());
+        assertEquals(booksAll.size(), 1);
+        printBook(booksAll);
 
-        assertEquals(books.size(), 1);
-        printBook(books);
+        List<Book> booksInvalid = bookDAO.find("invalid-isbn");
+        log.info("test02b_findBooks - Invalid ISBN books: " + booksInvalid.size());
+        assertEquals(booksInvalid.size(), 0);
+
+        String expectedIsbn = booksAll.get(0).getIsbn();
+        List<Book> booksValid = bookDAO.find(expectedIsbn);
+        log.info("test02b_findBooks - Valid ISBN(" + expectedIsbn + ") books: " + booksValid.size());
+        assertEquals(booksValid.size(), 1);
+        printBook(booksValid);
     }
 
     private static void printBook(Book book) {
@@ -177,4 +201,22 @@ public class BasicOperationsAfterDeploymentTest {
         assertEquals(customer.getAddress().getZip(), newCustomer.getAddress().getZip());
         assertEquals(customer.getAddress().getCountry(), newCustomer.getAddress().getCountry());
     }
+
+    @Test(dependsOnMethods = "test03a_createCustomers")
+    public void test03b_findCustomers() {
+        List<Customer> customersAll = customerDAO.getAll();
+        log.info("test03b_findCustomers - Existing all customers: " + customersAll.size());
+        assertEquals(customersAll.size(), 1);
+
+        List<Customer> customersInvalid = customerDAO.find("invalid-email");
+        log.info("test03b_findCustomers - Invalid email customers: " + customersInvalid.size());
+        assertEquals(customersInvalid.size(), 0);
+
+        String expectedEmail = customersAll.get(0).getEmail();
+        List<Customer> customersValid = customerDAO.find(expectedEmail);
+        log.info("test03b_findCustomers - Valid email(" + expectedEmail + ") customers: " + customersValid.size());
+        assertEquals(customersValid.size(), 1);
+        // TODO maybe print
+    }
+
 }

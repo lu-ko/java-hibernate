@@ -1,5 +1,8 @@
 package sk.elko.trainings.hibernate.bookshop.bo;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +19,12 @@ import javax.persistence.Table;
 
 @Entity(name = "Book")
 @Table(name = "BOOK")
+@NamedQueries({
+        @NamedQuery(
+                name = "findByIsbn",
+                query = "from Book b where b.isbn = :isbn"
+        )
+})
 public class Book extends Product {
 
     @Column(name = "ISBN", nullable = false, unique = true, length = 20)
